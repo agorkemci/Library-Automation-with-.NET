@@ -1,0 +1,20 @@
+﻿@model Library_Automation.ViewModels.BookFormViewModel
+@{
+    ViewData["Title"] = "Kitabı Düzenle";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h2 class="mb-4">Kitabı Düzenle</h2>
+
+        <form asp-action="Edit" asp-route-id="@Model.Id" method="post">
+            <partial name="_BookForm" model="Model" />
+            <button type="submit" class="btn btn-primary">Güncelle</button>
+            <a asp-action="Index" class="btn btn-link">Vazgeç</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
