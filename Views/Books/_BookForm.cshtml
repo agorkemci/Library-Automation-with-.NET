@@ -1,0 +1,40 @@
+﻿@model Library_Automation.ViewModels.BookFormViewModel;
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<input type="hidden" asp-for="Id" />
+<div class="mb-3">
+    <label asp-for="Title" class="form-label"></label>
+    <input asp-for="Title" class="form-control" />
+    <span asp-validation-for="Title" class="text-danger"></span>
+</div>
+<div class="mb-3">
+    <label asp-for="Author" class="form-label"></label>
+    <input asp-for="Author" class="form-control" />
+    <span asp-validation-for="Author" class="text-danger"></span>
+</div>
+<div class="mb-3">
+    <label asp-for="Publisher" class="form-label"></label>
+    <input asp-for="Publisher" class="form-control" />
+    <span asp-validation-for="Publisher" class="text-danger"></span>
+</div>
+<div class="mb-3">
+    <label asp-for="ISBN" class="form-label"></label>
+    <input asp-for="ISBN" class="form-control" />
+    <span asp-validation-for="ISBN" class="text-danger"></span>
+</div>
+<div class="mb-3">
+    <label asp-for="Floor" class="form-label"></label>
+    <input asp-for="Floor" class="form-control" />
+    <span asp-validation-for="Floor" class="text-danger"></span>
+</div>
+<div class="mb-3">
+    <label asp-for="Shelf" class="form-label"></label>
+    <input asp-for="Shelf" class="form-control" />
+    <span asp-validation-for="Shelf" class="text-danger"></span>
+</div>
+<div class="mb-3">
+    <label asp-for="CategoryId" class="form-label"></label>
+    <select asp-for="CategoryId" asp-items="Model.Categories" class="form-select">
+        <option value="0">Select a category</option>
+    </select>
+    <span asp-validation-for="CategoryId" class="text-danger"></span>
+</div>
