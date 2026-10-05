@@ -38,7 +38,7 @@ namespace Library_Automation.Data
             {
                 admin = new ApplicationUser
                 {
-                    UserName = "admin",
+                    UserName = adminEmail,//passwordSignin() ilk parametresi UserName kullanarak çalışır dolayısıyla username i emaile eşitlemek durumundayız...
                     Email = adminEmail,
                     FullName = "Admin User"
                 };

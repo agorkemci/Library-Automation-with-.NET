@@ -1,0 +1,24 @@
+﻿@model Library_Automation.Models.Book
+@{
+    ViewData["Title"] = "Kitabı Sil";
+}
+
+<div class="alert alert-warning">
+    <h4>Bu kitabı silmek istediğine emin misin?</h4>
+</div>
+
+<dl class="row">
+    <dt class="col-sm-3">Kitap</dt>
+    <dd class="col-sm-9">@Model.Title</dd>
+    <dt class="col-sm-3">Yazar</dt>
+    <dd class="col-sm-9">@Model.Author</dd>
+    <dt class="col-sm-3">ISBN</dt>
+    <dd class="col-sm-9">@Model.ISBN</dd>
+    <dt class="col-sm-3">Kategori</dt>
+    <dd class="col-sm-9">@Model.Category?.Name</dd>
+</dl>
+
+<form asp-action="Delete" asp-route-id="@Model.Id" method="post">
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="Index" class="btn btn-link">Cancel</a>
+</form>
