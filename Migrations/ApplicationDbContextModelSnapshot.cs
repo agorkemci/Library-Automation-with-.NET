@@ -182,7 +182,9 @@ namespace Library_Automation.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BookId");
+                    b.HasIndex("BookId")
+                        .IsUnique()
+                        .HasFilter("[ReturnDate] IS NULL");
 
                     b.HasIndex("UserId");
 

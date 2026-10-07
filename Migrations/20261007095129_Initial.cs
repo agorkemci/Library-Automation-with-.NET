@@ -277,7 +277,9 @@ namespace Library_Automation.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Loans_BookId",
                 table: "Loans",
-                column: "BookId");
+                column: "BookId",
+                unique: true,
+                filter: "[ReturnDate] IS NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Loans_UserId",

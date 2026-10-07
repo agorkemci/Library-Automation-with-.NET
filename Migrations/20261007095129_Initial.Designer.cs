@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Library_Automation.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20261005135927_Initial")]
+    [Migration("20261007095129_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -185,7 +185,9 @@ namespace Library_Automation.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BookId");
+                    b.HasIndex("BookId")
+                        .IsUnique()
+                        .HasFilter("[ReturnDate] IS NULL");
 
                     b.HasIndex("UserId");
 

@@ -1,0 +1,101 @@
+﻿@model Library_Automation.ViewModels.CatalogIndexViewModel
+@{
+    ViewData["Title"] = "Katalog";
+}
+
+<h2 class="mb-4">Kitap Kataloğu</h2>
+
+<form asp-action="Index" method="get" class="row g-2 align-items-end mb-4">
+    <div class="col-md-5">
+        <label asp-for="Search" class="form-label">Search</label>
+        <input asp-for="Search" class="form-control" placeholder="Search terms can be Title, Author, Publisher or ISBN" />
+    </div>
+
+    <div class="col-md-3">
+        <label asp-for="CategoryId" class="form-label">Category</label>
+        <select asp-for="CategoryId" asp-items="Model.Categories" class="form-select">
+            <option value="">All Categories</option>
+        </select>
+    </div>
+
+    <div class="col-md-2">
+        <div class="form-check">
+            <input asp-for="OnlyAvailable" class="form-check-input" />
+            <label asp-for="OnlyAvailable" class="form-check-label">Only Available</label>
+        </div>
+    </div>
+
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-primary w-100">Filter</button>
+    </div>
+</form>
+
+<p class="text-muted">Number of found books: @Model.Books.Count </p>
+
+
+@if (!Model.Books.Any())
+{
+    <div class="alert alert-info">There are no books matching your criteria.</div>
+}
+
+else
+{
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th>
+                    Title
+                </th>
+
+                <th>
+                    Author
+                </th>
+
+                <th>
+                    Category
+                </th>
+
+                <th>
+                    Location
+                </th>
+
+                <th>
+                    Status
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var book in Model.Books)
+            {
+                <tr>
+                    <td>
+                        @book.Title
+                        <div class="small text-muted">ISBN: @book.ISBN</div>
+                    </td>
+                    <td>
+                        @book.Author
+                    </td>
+                    <td>
+                        @book.CategoryName
+                    </td>
+
+                    <td>
+                        Location @book.Floor/@book.Shelf
+                    </td>
+
+                    <td>
+                        @if (book.IsAvailable)
+                        {
+                            <span class="badge bg-success">Available to loan</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">On loan</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}

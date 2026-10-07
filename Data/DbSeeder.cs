@@ -14,7 +14,7 @@ namespace Library_Automation.Data
             // Context nesnesi: C# kodunuz ile fiziksel veritabanı arasındaki köprüyü, iletişimi yöneten nesnedir.
             var context =services.GetRequiredService<ApplicationDbContext> ();
             if(!await context.Categories.AnyAsync())//tabloda en az bir kayıt var mı? yoksa...
-            {//birden fazla kategori eklemek için AddRange kullanıyoruz
+            {//birden fazla nesne eklemek için AddRange kullanıyoruz
                 context.Categories.AddRange(
                     new Category { Name = "Science Fiction" },
                     new Category { Name = "Fantasy" },

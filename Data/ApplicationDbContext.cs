@@ -40,5 +40,16 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .WithMany(u => u.Loans)
             .HasForeignKey(l => l.UserId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        //burada BookId üzerinde bir filtered index oluşturuyoruz 
+        //amaç: index vasıtasıyla rowlara daha hızlı ulaşabilmek
+        //asıl gayemiz ise ReturnDate column'nun null olduğu rowları index üzerinde tutmak
+        //bu sayede boştaki kitabın sadece bir tane aktif ödünç kaydı olabiliyor
+        //aynı zamanda sadece null olan rowlar indexte tutulur, daha hızlı erişim sağlanır.
+        builder.Entity<Loan>()
+            .HasIndex(l => l.BookId)
+            .IsUnique()
+            .HasFilter("[ReturnDate] IS NULL");
+
     }
 }
