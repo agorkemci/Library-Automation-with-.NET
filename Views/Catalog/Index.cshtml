@@ -30,38 +30,23 @@
     </div>
 </form>
 
-<p class="text-muted">Number of found books: @Model.Books.Count </p>
-
+<p class="text-muted">Number of found books: @Model.Books.Count</p>
 
 @if (!Model.Books.Any())
 {
     <div class="alert alert-info">There are no books matching your criteria.</div>
 }
-
 else
 {
     <table class="table table-striped align-middle">
         <thead>
             <tr>
-                <th>
-                    Title
-                </th>
-
-                <th>
-                    Author
-                </th>
-
-                <th>
-                    Category
-                </th>
-
-                <th>
-                    Location
-                </th>
-
-                <th>
-                    Status
-                </th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Category</th>
+                <th>Location</th>
+                <th>Status</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -72,17 +57,9 @@ else
                         @book.Title
                         <div class="small text-muted">ISBN: @book.ISBN</div>
                     </td>
-                    <td>
-                        @book.Author
-                    </td>
-                    <td>
-                        @book.CategoryName
-                    </td>
-
-                    <td>
-                        Location @book.Floor/@book.Shelf
-                    </td>
-
+                    <td>@book.Author</td>
+                    <td>@book.CategoryName</td>
+                    <td>Floor @book.Floor / @book.Shelf</td>
                     <td>
                         @if (book.IsAvailable)
                         {
@@ -93,9 +70,26 @@ else
                             <span class="badge bg-secondary">On loan</span>
                         }
                     </td>
+                    <td class="text-end">
+                        @if (book.IsAvailable)
+                        {
+                            if (User.Identity?.IsAuthenticated == true)
+                            {
+                                <form asp-controller="Loans" asp-action="Borrow" method="post" class="d-inline">
+                                    <input type="hidden" name="bookId" value="@book.Id" />
+                                    <button type="submit" class="btn btn-sm btn-outline-primary">Borrow</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <a asp-controller="Account" asp-action="Login" asp-route-returnUrl="/Catalog" class="small">
+                                    Log in to borrow
+                                </a>
+                            }
+                        }
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
-
 }

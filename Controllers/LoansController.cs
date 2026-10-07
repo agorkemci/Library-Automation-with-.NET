@@ -1,11 +1,14 @@
 ﻿using Library_Automation.Models;
+using Library_Automation.ViewModels;
 using LibraryAutomation.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Library_Automation.Controllers
 {
+    [Authorize]//Giriş yapmış olmak yeterli(Admin veya User)
     public class LoansController : Controller
     {
         private const int MaxActiveLoans = 3;
@@ -20,7 +23,9 @@ namespace Library_Automation.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Borrow(int bookId) {
+        [ValidateAntiForgeryToken]//Token kontrolü olmazsa CSRF'e açıksın: kötü niyetli bir site, giriş yapmış kullanıcının tarayıcısıyla senin sitene gizlice form gönderip işlem yapabilir
+        public async Task<IActionResult> Borrow(int bookId)
+        {
             var userId = _userManager.GetUserId(User)!;
             var bookExist = await _context.Books.AnyAsync(b => b.Id == bookId);
             if (!bookExist)
@@ -55,9 +60,10 @@ namespace Library_Automation.Controllers
                 _context.Loans.Add(loan);
                 try
                 {
-                    await _context.SaveChangesAsync();  
+                    await _context.SaveChangesAsync();
                 }
-                catch (Exception ex) {
+                catch (DbUpdateException)
+                {
                     TempData["Error"] = "The book is already taken!";
                     return RedirectToAction("Index", "Catalog");
                 }
@@ -66,4 +72,68 @@ namespace Library_Automation.Controllers
             }
 
         }
+        [HttpGet]
+        public async Task<IActionResult> My()
+        {
+            var userId = _userManager.GetUserId(User);
+            var loans = await _context.Loans
+                .AsNoTracking()
+                .Where(l => l.UserId == userId)
+                .OrderByDescending(l => l.LoanDate)
+                .Select(l => new LoanListItemViewModel
+                {
+                    Id = l.Id,
+                    BookTitle = l.Book!.Title,
+                    BookISBN = l.Book.ISBN,
+                    UserFullName = l.User!.FullName,
+                    UserEmail = l.User.Email!,
+                    LoanDate = l.LoanDate,
+                    DueDate = l.DueDate,
+                    ReturnDate = l.ReturnDate
+                }).ToListAsync();
+
+            return View(loans);
+
+        }
+        [Authorize(Roles ="Admin")]
+        [HttpGet]
+        public async Task<IActionResult> Active()
+        {
+            var loans=await _context.Loans.AsNoTracking()
+                .Where(l=>l.ReturnDate==null)
+                .OrderBy(l=>l.DueDate)
+                .Select(l => new LoanListItemViewModel
+                {
+                    Id = l.Id,
+                    BookTitle = l.Book!.Title,
+                    BookISBN = l.Book.ISBN,
+                    UserFullName = l.User!.FullName,
+                    UserEmail = l.User.Email!,
+                    LoanDate = l.LoanDate,
+                    DueDate = l.DueDate,
+                    ReturnDate = l.ReturnDate
+                }).ToListAsync();
+
+            return View(loans);
+        }
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Return(int id)
+        {
+            var loan = await _context.Loans.FindAsync(id);
+            if(loan == null)
+                return NotFound();
+            if (loan.ReturnDate != null)
+            {
+                TempData["Error"] = "The book is already returned to library!";
+                return RedirectToAction(nameof(Active));
+            }
+            loan.ReturnDate = DateTime.UtcNow;
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = "The book has been returned.";
+            return RedirectToAction(nameof(Active));
+        }
+    }
 }

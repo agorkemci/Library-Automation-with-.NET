@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Library_Automation.ViewModels.LoanListItemViewModel>
+@{
+    ViewData["Title"] = "Borrowed Books";
+}
+<h2 class="mb-4">My Borrows</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        There is no borrowed book currently.
+        <a asp-controller="Catalog" asp-action="Index" class="btn btn-primary">Check Catalog</a>
+    </div>
+}
+else
+{
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th>Book</th>
+                <th>Loan Date</th>
+                <th>Due Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var loan in Model)
+            {
+             <tr>
+                 <td>
+                     @loan.BookTitle
+                     <div class="small text-muted">ISBN: @loan.BookISBN</div>
+                 </td>
+                 <td>@loan.LoanDate.ToString("dd.mm.yyyy")</td>
+                 <td>@loan.DueDate.ToString("dd.mm.yyyy")</td>
+                 <td>
+                        @if (loan.IsReturned)
+                        {
+                            <span class="badge bg-secondary">Book is returned to library (@loan.ReturnDate!.Value.ToString("dd.MM.yyyy"))</span>
+                        }
+
+                        else if (loan.IsOverDue)
+                        {
+                            <span class="badge bg-danger">The deadline has been missed</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-warning text-dark">On loan</span>
+                        }
+                       
+
+                 </td>
+             </tr>   
+            }
+        </tbody>
+
+    </table>
+}

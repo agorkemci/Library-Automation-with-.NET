@@ -1,0 +1,65 @@
+﻿@model IEnumerable<Library_Automation.ViewModels.LoanListItemViewModel>
+@{
+    ViewData["Title"] = "Active Loans";
+}
+
+<h2 class="mb-4">Active Loans</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">There is no loaned book on your loan list!</div>
+
+}
+else
+{
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th>Book</th>
+                <th>Member</th>
+                <th>Loan Date</th>
+                <th>Due Date</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var loan in Model)
+            {
+                <tr>
+                    <td>
+                        @loan.BookTitle
+                        <div class="small text-muted">ISBN: @loan.BookISBN</div>
+                    </td>
+                    <td>
+                        @loan.UserFullName
+                        <div class="small text-muted">@loan.UserEmail</div>
+                    </td>
+                    <td>
+                        @loan.LoanDate.ToString("dd.MM.yyyy")
+                    </td>
+                    <td>
+                        <td>@loan.DueDate.ToString("dd.MM.yyyy")</td>
+                    </td>
+                    <td>
+                        @if (loan.IsOverDue)
+                        {
+                            <span class="badge bg-danger">The deadline has been missed</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-warning text-dark">Book is loaned</span>
+                        }
+                    </td>
+                    <td class="text-end">
+                        <form asp-action="Return" asp-route-id="@loan.Id" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-success">Accept the return</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
