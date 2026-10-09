@@ -30,7 +30,7 @@
     </div>
 </form>
 
-<p class="text-muted">Number of found books: @Model.Books.Count</p>
+<p class="text-muted">Number of found books: @Model.TotalCount</p>
 
 @if (!Model.Books.Any())
 {
@@ -92,4 +92,30 @@ else
             }
         </tbody>
     </table>
+    @if (Model.TotalPages > 1)
+    {
+        <nav>
+            <ul class="pagination justify-content-center">
+                <li class="page-item @(Model.HasPrevious ? "" : "disabled")">
+                    <a class="page-link" asp-action="Index"
+                       asp-route-page="@(Model.Page - 1)"
+                       asp-route-search="@Model.Search"
+                       asp-route-categoryId="@Model.CategoryId"
+                       asp-route-onlyAvailable="@Model.OnlyAvailable">Previous</a>
+                </li>
+
+                <li class="page-item disabled">
+                    <span class="page-link">@Model.Page / @Model.TotalPages</span>
+                </li>
+
+                <li class="page-item @(Model.HasNext ? "" : "disabled")">
+                    <a class="page-link" asp-action="Index"
+                       asp-route-page="@(Model.Page + 1)"
+                       asp-route-search="@Model.Search"
+                       asp-route-categoryId="@Model.CategoryId"
+                       asp-route-onlyAvailable="@Model.OnlyAvailable">Next</a>
+                </li>
+            </ul>
+        </nav>
+    }
 }
