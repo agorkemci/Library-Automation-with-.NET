@@ -96,7 +96,7 @@ else
     {
         <nav>
             <ul class="pagination justify-content-center">
-                <li class="page-item @(Model.HasPrevious ? "" : "disabled")">
+                <li class="page-item @(Model.HasPrevious==true ? "" : "disabled")">
                     <a class="page-link" asp-action="Index"
                        asp-route-page="@(Model.Page - 1)"
                        asp-route-search="@Model.Search"
@@ -108,7 +108,7 @@ else
                     <span class="page-link">@Model.Page / @Model.TotalPages</span>
                 </li>
 
-                <li class="page-item @(Model.HasNext ? "" : "disabled")">
+                <li class="page-item @(Model.HasNext==true ? "" : "disabled")">
                     <a class="page-link" asp-action="Index"
                        asp-route-page="@(Model.Page + 1)"
                        asp-route-search="@Model.Search"
