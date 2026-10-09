@@ -1,0 +1,122 @@
+﻿@model Library_Automation.ViewModels.ReportViewModel
+@{
+    ViewData["Title"] = "Reports";
+}
+
+<h2 class="mb-4">Library Reports</h2>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <div class="fs-2">@Model.TotalBooks</div>
+                <div class="text-muted">Books</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <div class="fs-2">@Model.TotalMembers</div>
+                <div class="text-muted">Users</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <div class="fs-2">@Model.ActiveLoans</div>
+                <div class="text-muted">Active loans</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center @(Model.OverdueCount > 0 ? "border-danger" : "")">
+            <div class="card-body">
+                <div class="fs-2 @(Model.OverdueCount > 0 ? "text-danger" : "")">@Model.OverdueCount</div>
+                <div class="text-muted">Overdue</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-6">
+        <h4>Books by category</h4>
+        @if (!Model.CategoryStats.Any())
+        {
+            <div class="alert alert-info">No books yet.</div>
+        }
+        else
+        {
+            @foreach (var stat in Model.CategoryStats)
+            {
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between">
+                        <span>@stat.Name</span>
+                        <span class="text-muted">@stat.Count (@stat.Percent.ToString("0.#")%)</span>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar" style="width: @stat.Percent.ToString("0.#", System.Globalization.CultureInfo.InvariantCulture)%"></div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+
+    <div class="col-md-6">
+        <h4>Last 5 books added</h4>
+        @if (!Model.RecentBooks.Any())
+        {
+            <div class="alert alert-info">No books yet.</div>
+        }
+        else
+        {
+            <ul class="list-group">
+                @foreach (var book in Model.RecentBooks)
+                {
+                    <li class="list-group-item">
+                        <strong>@book.Title</strong>
+                        <div class="small text-muted">@book.Author · @book.CategoryName</div>
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+</div>
+
+<h4 class="mt-5">Overdue loans</h4>
+@if (!Model.OverdueLoans.Any())
+{
+    <div class="alert alert-success">There are no overdue books.</div>
+}
+else
+{
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th>Book</th>
+                <th>User</th>
+                <th>Due date</th>
+                <th>Days overdue</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var loan in Model.OverdueLoans)
+            {
+                <tr>
+                    <td>
+                        @loan.BookTitle
+                        <div class="small text-muted">ISBN: @loan.BookISBN</div>
+                    </td>
+                    <td>
+                        @loan.UserFullName
+                        <div class="small text-muted">@loan.UserEmail</div>
+                    </td>
+                    <td>@loan.DueDate.ToString("dd.MM.yyyy")</td>
+                    <td><span class="badge bg-danger">@((DateTime.UtcNow - loan.DueDate).Days)</span></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

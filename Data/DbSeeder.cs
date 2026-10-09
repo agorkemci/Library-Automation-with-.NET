@@ -9,6 +9,11 @@ namespace Library_Automation.Data
     {
         public static async Task SeedAsync(IServiceProvider services)
         {
+            var config = services.GetRequiredService<IConfiguration>();
+            var adminEmail = config["SeedAdmin:Email"]
+                ?? throw new InvalidOperationException("SeedAdmin:Email ayarı bulunamadı.");
+            var adminPassword = config["SeedAdmin:Password"]
+                ?? throw new InvalidOperationException("SeedAdmin:Password ayarı bulunamadı.");
             var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
             var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
             // Context nesnesi: C# kodunuz ile fiziksel veritabanı arasındaki köprüyü, iletişimi yöneten nesnedir.
@@ -32,7 +37,6 @@ namespace Library_Automation.Data
                     await roleManager.CreateAsync(new IdentityRole(role));
                 }
             }
-            const string adminEmail = "admin@library.com";
             var admin = await userManager.FindByEmailAsync(adminEmail);
             if (admin == null)
             {
@@ -42,7 +46,7 @@ namespace Library_Automation.Data
                     Email = adminEmail,
                     FullName = "Admin User"
                 };
-                var result = await userManager.CreateAsync(admin, "Admin123");
+                var result = await userManager.CreateAsync(admin, adminPassword);
                 if (result.Succeeded)
                 {
                     await userManager.AddToRoleAsync(admin, "Admin");

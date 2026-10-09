@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>Library_Automation</RootNamespace>
+    <UserSecretsId>3d11bb95-fb31-46f1-bdd1-71c8694c9208</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
