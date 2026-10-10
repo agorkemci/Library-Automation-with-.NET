@@ -1,0 +1,25 @@
+﻿@model Library_Automation.ViewModels.CategoryListItemViewModel
+@{
+    ViewData["Title"] = "Delete Category";
+}
+
+@if (Model.BookCount > 0)
+{
+    <div class="alert alert-danger">
+        <strong>@Model.Name</strong> contains @Model.BookCount book(s) and can not be deleted.
+        Move or delete those books first.
+    </div>
+    <a asp-action="Index" class="btn btn-secondary">Back</a>
+}
+
+else
+{
+    <div class="alert alert-warning">
+        Are you sure you want to delete<strong>@Model.Name</strong>?
+    </div>
+    <form asp-action="Delete" asp-route-id="@Model.Id" method="post">
+        <button type="submit" class="btn btn-danger">Yes, Delete</button>
+        <a asp-action="Index" class="btn btn-link">Cancel</a>
+    </form>
+}
+}
