@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Library_Automation.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20261007095129_Initial")]
-    partial class Initial
+    [Migration("20261010092651_AddCategoryNameIndex")]
+    partial class AddCategoryNameIndex
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -155,6 +155,9 @@ namespace Library_Automation.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Categories");
                 });

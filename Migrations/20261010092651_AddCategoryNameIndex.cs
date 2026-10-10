@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Library_Automation.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class AddCategoryNameIndex : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -272,6 +272,12 @@ namespace Library_Automation.Migrations
                 name: "IX_Books_ISBN",
                 table: "Books",
                 column: "ISBN",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Categories_Name",
+                table: "Categories",
+                column: "Name",
                 unique: true);
 
             migrationBuilder.CreateIndex(

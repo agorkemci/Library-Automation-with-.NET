@@ -28,6 +28,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .WithMany(c => c.Books)
             .HasForeignKey(b => b.CategoryId)
             .OnDelete(DeleteBehavior.Restrict);
+        builder.Entity<Category>()
+            .HasIndex(c => c.Name)
+            .IsUnique();
 
         builder.Entity<Loan>()
             .HasOne(l => l.Book)
