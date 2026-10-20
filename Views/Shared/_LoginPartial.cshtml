@@ -2,18 +2,23 @@
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
-
-<ul class="navbar-nav">
+/*align-items-lg-center ile large ekranlarda (masaüstü vs.) ul üzerinde duracak itemlar dikeyde merkezleniyor ve her li item arası boşluk 8pxlik bırakılıyor */
+<ul class="navbar-nav align-items-lg-center gap-lg-2">
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
-            <span class="nav-link text-dark">
-                Hello, @UserManager.GetUserName(User)
+            <span class="navbar-text">
+                <i class="bi bi-person-circle me-1">@UserManager.GetUserName(User)</i>
                 @if (User.IsInRole("Admin"))
                 {
-                    <span class="badge bg-danger">Admin</span>
+                    <span class="badge bg-warning text-dark ms-1">Admin</span>
                 }
             </span>
+        </li>
+        <li class="nav-item">
+            <form asp-controller="Account" asp-action="Logout" method="post">
+                <button type="submit" class="btn btn-sm btn-outline-light">Log out</button>
+            </form>
         </li>
     }
     else

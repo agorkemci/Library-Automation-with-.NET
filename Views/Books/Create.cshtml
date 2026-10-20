@@ -7,7 +7,7 @@
         <h2 class="mb-4">Add New Book</h2>
     </div>
     <form asp-action="Create" method="post">
-        <partial name="_BookForm" model="Model"/>
+        <partial name="_BookForm" model="Model"/>@*_Book formun kullanacağı model create'in direkt kullandığı model olarak işaretleme*@
         <button type="submit" class="btn btn-primary">Add Book</button>
         <a asp-action="Index" class="btn btn-link">Cancel</a>
     </form>
