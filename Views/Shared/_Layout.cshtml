@@ -3,9 +3,9 @@
     var isAdmin = User.IsInRole("Admin");
     var isSignedIn = User.Identity?.IsAuthenticated == true;
 }
-/*
-    Şu an çalışan controller' ın adı ViewContext.RouteData.Values["controller"] üzerinden çekiliyor
-*/
+@*    Şu an çalışan controller' ın adı ViewContext.RouteData.Values["controller"] üzerinden çekiliyor
+*@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,11 +16,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
-    /*
-    Her view’da yazdığımız ViewData["Title"] = "Katalog"; değeri buraya gelir.
+    @*Her view’da yazdığımız ViewData["Title"] = "Katalog"; değeri buraya gelir.
     İlk satır tarayıcıya “birazdan Google Fonts’tan dosya isteyeceğim, bağlantıyı şimdiden kur” der, hızlandırır. İkincisi Inter yazı tipini dört kalınlıkta (400-700) yükler. 
-    display=swap, font inene kadar yedek yazı tipini gösterir, sayfa boş beklemez.
-    */
+    display=swap, font inene kadar yedek yazı tipini gösterir, sayfa boş beklemez.*@
+    
+    
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
@@ -28,7 +28,7 @@
     <header>
         <nav class="navbar navbar-expand-lg app-navbar sticky-top">
             <div class="container">
-                <a class="navbar-brand" asp-controller="Catalog" asp-action="Index">
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">
                     <i class="bi bi-book-half me-1"></i> Library
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -105,6 +105,6 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)/*her sayfaya kendi özel scriptini çalıştırmak için imkan verme olayı SectionScriptsiçinde{} required: false ile de bunun zorunlu olmamasını sağlayıp çökmesini önlemiş oluyoruz*/
+    @await RenderSectionAsync("Scripts", required: false)@*her sayfaya kendi özel scriptini çalıştırmak için imkan verme olayı SectionScriptsiçinde{} required: false ile de bunun zorunlu olmamasını sağlayıp çökmesini önlemiş oluyoruz*@
 </body>
 </html>

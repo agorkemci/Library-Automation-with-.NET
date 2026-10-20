@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Library_Automation.Migrations
 {
     /// <inheritdoc />
-    public partial class AddCategoryNameIndex : Migration
+    public partial class InitialStart : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

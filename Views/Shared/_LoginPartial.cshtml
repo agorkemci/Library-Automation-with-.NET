@@ -2,7 +2,7 @@
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
-/*align-items-lg-center ile large ekranlarda (masaüstü vs.) ul üzerinde duracak itemlar dikeyde merkezleniyor ve her li item arası boşluk 8pxlik bırakılıyor */
+@*align-items-lg-center ile large ekranlarda (masaüstü vs.) ul üzerinde duracak itemlar dikeyde merkezleniyor ve her li item arası boşluk 8pxlik bırakılıyor *@
 <ul class="navbar-nav align-items-lg-center gap-lg-2">
     @if (SignInManager.IsSignedIn(User))
     {
@@ -24,10 +24,10 @@
     else
     {
         <li class="nav-item">
-            <a class="nav-link text-dark"  asp-controller="Account" asp-action="Login">Login</a>
+            <a class="nav-link"  asp-controller="Account" asp-action="Login">Login</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+            <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
         </li>
     }
 </ul>
