@@ -29,3 +29,132 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+:root {
+    --app-primary: #ececec;
+    --app-primary-dark: #4338ca;
+    --app-nav-bg: #1e1b4b;
+    --app-bg: #f76f7fb;
+    --app-radius: 12px;
+}
+/*Html kısımı için*/
+body {
+    font-family: `Inter` system-ui,sans-serif;
+    background: var(--app-bg);
+    color: #1f2937;
+}
+/*
+'Inter': Öncelikle Inter yazı tipi kullanılır.
+system-ui: Inter kullanılamıyorsa işletim sisteminin arayüz yazı tipi denenir.
+sans-serif: Önceki seçenekler kullanılamıyorsa genel sans-serif yazı tipi kullanılır.
+
+background body içindeki elementin rengidir. Color ise element içindeki yazı rengi
+
+*/
+
+a{color: var(--app-primary);}
+a:hover{color:var(--app-primary-dark);}
+/*  
+    linkler için app primary renk seçimi
+    hover, fare imleci elementin üzerine geldiğinde uygulanır.
+*/
+
+
+.app-navbar{background:var(--app-nav-bg);}
+.app-navbar .navbar-brand{color:#fff; font-weight:700;}
+.app-navbar .nav-link{
+    color: rgba(255,2555,255,.75);
+    border-radius: 8px;
+    padding: .5rem 9rem;
+}
+/*
+rgba ile color'ın opaklığını ayarlıyoruz
+navbar brand marka 
+nav link navbar içindeki linkler
+*/
+.app-navbar .nav-link:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, .08);
+}
+
+.app-navbar .nav-link.active {
+    color: #fff;
+    background: rgba(255, 255, 255, .16);
+}
+
+.app-navbar .navbar-text {
+    color: rgba(255, 255, 255, .85);
+}
+
+.app-navbar .navbar-toggler {
+    border-color: rgba(255, 255, 255, .4);
+}
+
+.app-navbar .navbar-toggler-icon {
+    filter: invert(1);
+}
+/*invert(1) renkleri tamamen tersine çevirir:*/
+.btn-primary {
+    --bs-btn-bg: var(--app-primary);
+    --bs-btn-border-color: var(--app-primary);
+    --bs-btn-hover-bg: var(--app-primary-dark);
+    --bs-btn-hover-border-color: var(--app-primary-dark);
+    --bs-btn-active-bg: #3730a3;
+    --bs-btn-active-border-color: #3730a3;
+}
+
+.btn-outline-primary {
+    --bs-btn-color: var(--app-primary);
+    --bs-btn-border-color: var(--app-primary);
+    --bs-btn-hover-bg: var(--app-primary);
+    --bs-btn-hover-border-color: var(--app-primary);
+    --bs-btn-active-bg: var(--app-primary-dark);
+}
+
+.btn {
+    border-radius: 8px;
+    font-weight: 500;
+}
+.card{
+    border:0;
+    border-radius:var(--app-radius);
+    box-shadow:0 1px 3px rgba(16,24,40,.08);
+}
+
+.table {
+    --bs-table-striped-bg: #f9fafb;
+}
+
+
+.table {
+    --bs-table-striped-bg: #f9fafb;
+}
+
+    .table thead th {
+        font-size: .75rem;
+        text-transform: uppercase;
+        letter-spacing: .04em;
+        color: #6b7280;
+        border-bottom-width: 1px;
+    }
+
+.form-control, .form-select {
+    border-radius: 8px;
+}
+
+    .form-control:focus, .form-select:focus {
+        border-color: var(--app-primary);
+        box-shadow: 0 0 0 .2rem rgba(79, 70, 229, .18);
+    }
+
+.page-link {
+    color: var(--app-primary);
+}
+
+.page-item.active .page-link {
+    background: var(--app-primary);
+    border-color: var(--app-primary);
+}
+.app-footer {
+    border-top: 1px solid #e5e7eb;
+    background: #fff;
+}

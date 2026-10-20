@@ -1,67 +1,107 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+    var isAdmin = User.IsInRole("Admin");
+    var isSignedIn = User.Identity?.IsAuthenticated == true;
+}
+/*
+    Şu an çalışan controller' ın adı ViewContext.RouteData.Values["controller"] üzerinden çekiliyor
+*/
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Library_Automation</title>
-    <script type="importmap"></script>
+    <title>@ViewData["Title"] - Library</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    /*
+    Her view’da yazdığımız ViewData["Title"] = "Katalog"; değeri buraya gelir.
+    İlk satır tarayıcıya “birazdan Google Fonts’tan dosya isteyeceğim, bağlantıyı şimdiden kur” der, hızlandırır. İkincisi Inter yazı tipini dört kalınlıkta (400-700) yükler. 
+    display=swap, font inene kadar yedek yazı tipini gösterir, sayfa boş beklemez.
+    */
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Library_Automation.styles.css" asp-append-version="true" />
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Library_Automation</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+        <nav class="navbar navbar-expand-lg app-navbar sticky-top">
+            <div class="container">
+                <a class="navbar-brand" asp-controller="Catalog" asp-action="Index">
+                    <i class="bi bi-book-half me-1"></i> Library
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#mainNav" aria-controls="mainNav"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+
+                <div class="collapse navbar-collapse" id="mainNav">
+                    <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link @(controller == "Catalog" ? "active" : "")"
+                               asp-controller="Catalog" asp-action="Index">
+                                <i class="bi bi-search me-1"></i>Catalog
+                            </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Catalog" asp-action="Index">Catalog</a>
-                        </li>
-                        @if (User.IsInRole("Admin"))
+
+                        @if (isSignedIn)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Books" asp-action="Index">Book Management</a>
+                                <a class="nav-link @(controller == "Loans" && !isAdmin ? "active" : "")"
+                                   asp-controller="Loans" asp-action="My">
+                                    <i class="bi bi-bookmark-check me-1"></i>My Loans
+                                </a>
                             </li>
                         }
-                        @if (User.IsInRole("Admin"))
+
+                        @if (isAdmin)
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Reports" asp-action="Index">Reports</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                    <i class="bi bi-gear me-1"></i>Admin
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" asp-controller="Books" asp-action="Index">Books</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Categories" asp-action="Index">Categories</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Loans" asp-action="Active">Active loans</a></li>
+                                    <li><hr class="dropdown-divider" /></li>
+                                    <li><a class="dropdown-item" asp-controller="Reports" asp-action="Index">Reports</a></li>
+                                </ul>
                             </li>
                         }
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Categories" asp-action="Index">Categories</a>
-                        </li>
-                        
                     </ul>
-                    <partial name="_LoginPartial"/>
+
+                    <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - Library_Automation - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <main role="main" class="container py-4">
+        @if (TempData["Success"] is string okMesaj)
+        {
+            <div class="alert alert-success d-flex align-items-center" role="alert">
+                <i class="bi bi-check-circle-fill me-2"></i>@okMesaj
+            </div>
+        }
+        @if (TempData["Error"] is string hataMesaj)
+        {
+            <div class="alert alert-danger d-flex align-items-center" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>@hataMesaj
+            </div>
+        }
+
+        @RenderBody()
+    </main>
+
+    <footer class="app-footer mt-auto py-3">
+        <div class="container text-center text-muted small">
+            &copy; @DateTime.Now.Year Library Automation
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
