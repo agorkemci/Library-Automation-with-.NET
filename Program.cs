@@ -47,7 +47,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
-
+app.UseStaticFiles();//wwwroot klasörü altında pathi belli bir dosyanın servis edilebilmesi için gerekli
 app.UseAuthorization();
 
 app.MapStaticAssets();

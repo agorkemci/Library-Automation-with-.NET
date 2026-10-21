@@ -161,6 +161,7 @@ namespace Library_Automation.Controllers
             }
             _context.Books.Remove(book);
             await _context.SaveChangesAsync();
+            DeleteCover(book.CoverFileName);//db den kaldırıldığı gibi wwwrootdan da siliyoruz uploded cover file'ı
             TempData["Success"] = "Book deleted successfully.";
             return RedirectToAction(nameof(Index));
         }
