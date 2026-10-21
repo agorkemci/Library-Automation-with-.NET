@@ -31,6 +31,36 @@
     <input asp-for="Shelf" class="form-control" />
     <span asp-validation-for="Shelf" class="text-danger"></span>
 </div>
+<div class="row">
+    <div class="col-md-6 mb-3">
+        <label asp-for="PublishYear" class="form-label"></label>
+        <input asp-for="PublishYear" class="form-control" />
+        <span asp-validation-for="PublishYear" class="text-danger"></span>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label asp-for="PageCount" class="form-label"></label>
+        <input asp-for="PageCount" class="form-control" />
+        <span asp-validation-for="PageCount" class="text-danger"></span>
+    </div>
+</div>
+
+<div class="mb-3">
+    <label asp-for="CoverFile" class="form-label"></label>
+
+    @if (!string.IsNullOrEmpty(Model.CoverFileName))
+    {
+        <div class="mb-2">
+            <img src="~/uploads/covers/@Model.CoverFileName" alt="Current cover"
+                 class="rounded border" style="height: 120px;" />
+            <div class="form-text">Choose a new file to replace this cover.</div>
+        </div>
+    }
+
+    <input asp-for="CoverFile" type="file" class="form-control" accept=".jpg,.jpeg,.png,.webp" />
+    <span asp-validation-for="CoverFile" class="text-danger"></span>
+    <div class="form-text">JPG, PNG or WEBP, max 2 MB.</div>
+</div>
+
 <div class="mb-3">
     <label asp-for="CategoryId" class="form-label"></label>
     <select asp-for="CategoryId" asp-items="Model.Categories" class="form-select">

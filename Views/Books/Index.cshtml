@@ -25,6 +25,7 @@
 <table class="table table-striped align-middle">
     <thead>
         <tr>
+            <th style="width: 70px;"></th>
             <th>Title</th>
             <th>Author</th>
             <th>ISBN</th>
@@ -39,6 +40,19 @@
         {
 
             <tr>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.CoverFileName))
+                    {
+                        <img src="~/uploads/covers/@item.CoverFileName" alt="@item.Title" class="rounded" style="height: 56px;" />
+                    }
+                    else
+                    {
+                        <div class="bg-light border rounded d-flex align-items-center justify-content-center text-muted"
+                             style="width: 40px; height: 56px;">
+                            <i class="bi bi-book"></i>
+                        </div>
+                    }
+                </td>
                 <td>@item.Title</td>
                 <td>@item.Author</td>
                 <td>@item.ISBN</td>

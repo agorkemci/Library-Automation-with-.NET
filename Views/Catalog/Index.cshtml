@@ -56,6 +56,9 @@ else
                     <td>
                         @book.Title
                         <div class="small text-muted">ISBN: @book.ISBN</div>
+                        <div class="small text-muted">
+                            @(book.PublishYear?.ToString() ?? "—") · @(book.PageCount?.ToString() ?? "—") pages
+                        </div>
                     </td>
                     <td>@book.Author</td>
                     <td>@book.CategoryName</td>

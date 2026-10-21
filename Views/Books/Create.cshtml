@@ -6,7 +6,14 @@
     <div class="col-md-6">
         <h2 class="mb-4">Add New Book</h2>
     </div>
-    <form asp-action="Create" method="post">
+    <form asp-action="Create" method="post" enctype="multipart/form-data">
+        @*
+            enctype="multipart/form-data" ifadesi, 
+            tarayıcıya "Bu form sadece düz metin içermiyor, 
+            içinde bir dosya (resim, pdf, video vb.) var, 
+            bunu sunucuya paketleyip gönder" talimatını veren bir nitelik
+
+        *@
         <partial name="_BookForm" model="Model"/>@*_Book formun kullanacağı model create'in direkt kullandığı model olarak işaretleme*@
         <button type="submit" class="btn btn-primary">Add Book</button>
         <a asp-action="Index" class="btn btn-link">Cancel</a>

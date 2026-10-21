@@ -59,7 +59,10 @@ namespace Library_Automation.Controllers
                     Publisher=b.Publisher,
                     ISBN=b.ISBN,
                     CategoryName=b.Category!.Name,
-                    Floor=b.Floor,
+                    PublishYear = b.PublishYear,
+                    PageCount = b.PageCount,
+                    CoverFileName = b.CoverFileName,
+                    Floor =b.Floor,
                     Shelf=b.Shelf,
                     IsAvailable=!b.Loans.Any(l=>l.ReturnDate==null)
                 }).ToListAsync();
