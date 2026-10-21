@@ -107,6 +107,10 @@ namespace Library_Automation.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
+                    b.Property<string>("CoverFileName")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<int>("Floor")
                         .HasColumnType("int");
 
@@ -114,6 +118,12 @@ namespace Library_Automation.Migrations
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
+
+                    b.Property<int?>("PageCount")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PublishYear")
+                        .HasColumnType("int");
 
                     b.Property<string>("Publisher")
                         .HasMaxLength(150)
