@@ -42,6 +42,7 @@ namespace Library_Automation.Controllers
         {
             if(await _context.Books.AnyAsync(b=>b.ISBN==model.ISBN))
                 ModelState.AddModelError(nameof(model.ISBN), "A book with this ISBN already exists.");
+            
             if (!ModelState.IsValid)
             {
                 model.Categories = await GetCategoryItemsAsync();
@@ -78,8 +79,11 @@ namespace Library_Automation.Controllers
                 Floor = book.Floor,
                 Shelf = book.Shelf,
                 CategoryId = book.CategoryId,
-                Categories = await GetCategoryItemsAsync()
-            };
+                PublishYear = book.PublishYear,
+                PageCount=book.PageCount,
+                CoverFileName=book.CoverFileName,
+                Categories=await GetCategoryItemsAsync()
+            }; 
             return View(model);
         }
 
@@ -87,20 +91,18 @@ namespace Library_Automation.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(int id, BookFormViewModel model)
         {
-            if(id!=model.Id)
-                return BadRequest();
-            if(await _context.Books.AnyAsync(b=>b.ISBN==model.ISBN && b.Id!=model.Id))
+            if (!ModelState.IsValid)
             {
-                ModelState.AddModelError(nameof(model.ISBN), "A book with this ISBN already exists.");
-            }
-            if(!ModelState.IsValid)
-            {
-                model.Categories = await GetCategoryItemsAsync();
+                model.Categories=await GetCategoryItemsAsync();
+                model.CoverFileName=await _context.Books.AsNoTracking()
+                    .Where(b=>b.Id==id).Select(b=>b.CoverFileName).FirstOrDefaultAsync();
                 return View(model);
             }
-            var book=await _context.Books.FindAsync(id);
-            if(book == null)
-                return NotFound();
+
+
+            var book = await _context.Books.FindAsync(id);
+            if (book == null) return NotFound();
+            var oldCover = book.CoverFileName;
             book.Title = model.Title;
             book.Author = model.Author;
             book.Publisher = model.Publisher;
@@ -108,8 +110,35 @@ namespace Library_Automation.Controllers
             book.Floor = model.Floor;
             book.Shelf = model.Shelf;
             book.CategoryId = model.CategoryId;
-            await _context.SaveChangesAsync();
-            TempData["Success"]= "Book updated successfully.";
+            book.PublishYear = model.PublishYear;
+            book.PageCount = model.PageCount;
+
+
+            string? newCover = null;
+            if(model.CoverFile is { Length: > 0 })
+            {
+                newCover=await SaveCoverAsync(model.CoverFile);
+                book.CoverFileName = newCover;
+            }
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException) {
+                DeleteCover(newCover);
+                //wwwroot upload klasöründen yüklenmesine müsaade edilmiş dosyayı silip
+                // asp validation summary üzerinde gösterilecek hatayı tanımlayıp
+                //modelin pathini eski path yapıp modeli tekrar edit.cshtml için dönüyoruz
+                ModelState.AddModelError(string.Empty, "An exception occured on updating record on db, the new Cover file will be ignored");
+                model.Categories = await GetCategoryItemsAsync();
+                model.CoverFileName = oldCover;
+                return View(model);
+            }
+            if (newCover != null)
+            {
+                DeleteCover(oldCover);
+            }
+            TempData["Success"] = "Book Updated";
             return RedirectToAction(nameof(Index));
         }
         [HttpGet]
