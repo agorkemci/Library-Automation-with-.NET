@@ -1,0 +1,257 @@
+﻿/* ================= HERO (tam ekran) ================= */
+.hero {
+    position: relative;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    padding: 4rem 0 3rem;
+    color: #fff;
+}
+
+    .hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(rgba(255, 255, 255, .16) 1px, transparent 1px);
+        background-size: 22px 22px;
+        -webkit-mask-image: linear-gradient(to left, #000, transparent 55%);
+        mask-image: linear-gradient(to left, #000, transparent 55%);
+        pointer-events: none;
+    }
+
+    .hero > .container {
+        position: relative;
+        z-index: 1;
+    }
+
+.hero-title {
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -.02em;
+}
+
+.gradient-purple, .gradient-green {
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+}
+
+.gradient-purple {
+    background-image: linear-gradient(90deg, #6366f1, #a855f7);
+}
+
+.gradient-green {
+    background-image: linear-gradient(90deg, #10b981, #34d399);
+}
+
+.hero-lead {
+    margin-top: 1.5rem;
+    max-width: 34rem;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, .7);
+}
+
+    .hero-lead strong {
+        color: #fff;
+        font-weight: 600;
+    }
+
+/* sağdaki sahte pencere */
+.hero-visual {
+    position: relative;
+    padding: 1.5rem 0;
+}
+
+.hero-window {
+    background: #0f0e24;
+    border: 1px solid rgba(255, 255, 255, .08);
+    border-radius: 16px;
+    box-shadow: 0 30px 80px rgba(79, 70, 229, .3);
+    overflow: hidden;
+}
+
+.hero-window-bar {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    padding: .8rem 1rem;
+    background: rgba(255, 255, 255, .03);
+    border-bottom: 1px solid rgba(255, 255, 255, .06);
+}
+
+.dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+}
+
+.dot-red {
+    background: #ef4444;
+}
+
+.dot-yellow {
+    background: #f59e0b;
+}
+
+.dot-green {
+    background: #22c55e;
+}
+
+.hero-window-title {
+    margin-left: .8rem;
+    padding: .15rem .7rem;
+    font-size: .8rem;
+    color: rgba(255, 255, 255, .6);
+    background: rgba(255, 255, 255, .06);
+    border-radius: 6px;
+}
+
+.hero-window-body {
+    padding: 1.2rem;
+    display: grid;
+    gap: .9rem;
+}
+
+.mock-row {
+    display: flex;
+    align-items: center;
+    gap: .9rem;
+    padding: .8rem;
+    background: rgba(255, 255, 255, .04);
+    border-radius: 10px;
+}
+
+.mock-cover {
+    width: 38px;
+    height: 52px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #6366f1, #a855f7);
+}
+
+.mock-line {
+    height: 9px;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, .22);
+}
+
+.mock-line-sm {
+    height: 7px;
+    margin-top: .55rem;
+    background: rgba(255, 255, 255, .12);
+}
+
+.mock-badge {
+    font-size: .72rem;
+    font-weight: 600;
+    padding: .3rem .7rem;
+    border-radius: 999px;
+}
+
+.mock-badge-ok {
+    color: #34d399;
+    background: rgba(16, 185, 129, .15);
+}
+
+.mock-badge-busy {
+    color: #cbd5e1;
+    background: rgba(148, 163, 184, .18);
+}
+
+/* süzülen kartlar */
+.hero-chip {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+    padding: .8rem 1.1rem;
+    border-radius: 14px;
+    background: rgba(24, 22, 56, .85);
+    border: 1px solid rgba(255, 255, 255, .1);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, .35);
+}
+
+.hero-chip-top {
+    top: -6px;
+    left: -28px;
+}
+
+.hero-chip-bottom {
+    bottom: -6px;
+    right: -20px;
+}
+
+.chip-icon {
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    color: #fff;
+}
+
+.chip-purple {
+    background: #7c3aed;
+}
+
+.chip-orange {
+    background: #f59e0b;
+}
+
+/* istatistik şeridi */
+.hero-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin-top: 3.5rem;
+    border: 1px solid rgba(255, 255, 255, .1);
+    border-radius: 20px;
+    background: rgba(255, 255, 255, .03);
+}
+
+.stat {
+    padding: 1.4rem 1rem;
+    text-align: center;
+}
+
+    .stat + .stat {
+        border-left: 1px solid rgba(255, 255, 255, .1);
+    }
+
+.stat-number {
+    font-size: 2.2rem;
+    font-weight: 800;
+    background: linear-gradient(90deg, #6366f1, #a855f7);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.stat-label {
+    font-size: .85rem;
+    color: rgba(255, 255, 255, .55);
+}
+
+@media (max-width: 767px) {
+    .hero {
+        padding: 2.5rem 0 2rem;
+    }
+
+    .hero-stats {
+        grid-template-columns: repeat(2, 1fr);
+        margin-top: 2rem;
+    }
+
+    .stat:nth-child(3) {
+        border-left: 0;
+    }
+
+    .stat:nth-child(n+3) {
+        border-top: 1px solid rgba(255, 255, 255, .1);
+    }
+}

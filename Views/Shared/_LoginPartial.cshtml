@@ -17,7 +17,7 @@
         </li>
         <li class="nav-item">
             <form asp-controller="Account" asp-action="Logout" method="post">
-                <button type="submit" class="btn btn-sm btn-outline-light">Log out</button>
+                <button type="submit" class="btn btn-sm btn-outline-primary">Log out</button>
             </form>
         </li>
     }
@@ -27,7 +27,7 @@
             <a class="nav-link"  asp-controller="Account" asp-action="Login">Login</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+            <a class="btn btn-sm btn-primary" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
         </li>
     }
 </ul>

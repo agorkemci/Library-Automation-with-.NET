@@ -1,8 +1,120 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model Library_Automation.ViewModels.HomeViewModel
+@{
+    ViewData["Title"] = "Welcome";
+    ViewData["FullWidth"] = true;
+    var isSignedIn = User.Identity?.IsAuthenticated == true;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section class="hero">
+    
+    <div class="container">
+            
+        <div class="row align-items-center g-5 position-relative">
+            <div class="col-lg-6">
+                <h1 class="hero-title">
+                    <span class="gradient-purple">Your library,</span>
+                    <br />
+                    <span class="text-white">now</span>
+                    <span class="gradient-green">online</span>
+                </h1>
+
+                <p class="hero-lead">
+                    Search the <strong>catalog</strong>, see which books are
+                    <strong>available</strong>, and borrow them in one click.
+                    Track your loans and due dates from anywhere.
+                </p>
+                <div class="d-flex flex-wrap gap-3 mt-4">
+                    <a class="btn btn-cta" asp-controller="Catalog" asp-action="Index">
+                        <i class="bi bi-search me-2"></i>Browse catalog
+                    </a>
+                    @if (isSignedIn)
+                    {
+                        <a class="btn btn-ghost" asp-controller="Loans" asp-action="My">
+                            <i class="bi bi-bookmark-check me-2"></i>My loans
+                        </a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-ghost" asp-controller="Account" asp-action="Login">
+                            <i class="bi bi-box-arrow-in-right me-2"></i>Log in
+                        </a>
+                    }
+                </div>
+            </div>
+            <div class="col-lg-6 d-none d-lg-block">
+                <div class="hero-visual">
+                    <div class="hero-window">
+                        <div class="hero-window-bar">
+                            <span class="dot dot-red"></span>
+                            <span class="dot dot-yellow"></span>
+                            <span class="dot dot-green"></span>
+                            <span class="hero-window-title"><i class="bi bi-book me-1"></i>catalog</span>
+                        </div>
+
+                        <div class="hero-window-body">
+                            <div class="mock-row">
+                                <div class="mock-cover"></div>
+                                <div class="flex-grow-1">
+                                    <div class="mock-line w-75"></div>
+                                    <div class="mock-line mock-line-sm w-50"></div>
+                                </div>
+                                <span class="mock-badge mock-badge-ok">Available</span>
+                            </div>
+                            <div class="mock-row">
+                                <div class="mock-cover"></div>
+                                <div class="flex-grow-1">
+                                    <div class="mock-line w-50"></div>
+                                    <div class="mock-line mock-line-sm w-75"></div>
+                                </div>
+                                <span class="mock-badge mock-badge-busy">On loan</span>
+                            </div>
+                            <div class="mock-row">
+                                <div class="mock-cover"></div>
+                                <div class="flex-grow-1">
+                                    <div class="mock-line w-75"></div>
+                                    <div class="mock-line mock-line-sm w-50"></div>
+                                </div>
+                                <span class="mock-badge mock-badge-ok">Available</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hero-chip hero-chip-top">
+                        <span class="chip-icon chip-purple"><i class="bi bi-check-lg"></i></span>
+                        <div>
+                            <div class="fw-semibold">Live availability</div>
+                            <div class="small text-white-50">Always up to date</div>
+                        </div>
+                    </div>
+
+                    <div class="hero-chip hero-chip-bottom">
+                        <span class="chip-icon chip-orange"><i class="bi bi-calendar-check"></i></span>
+                        <div>
+                            <div class="fw-semibold">14-day loans</div>
+                            <div class="small text-white-50">Up to 3 books at a time</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-stats position-relative">
+            <div class="stat">
+                <div class="stat-number">@Model.TotalBooks</div>
+                <div class="stat-label">Books</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">@Model.AvailableBooks</div>
+                <div class="stat-label">Available now</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">@Model.TotalCategories</div>
+                <div class="stat-label">Categories</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">@Model.TotalMembers</div>
+                <div class="stat-label">Members</div>
+            </div>
+        </div>   <!-- hero-stats'ın kapanışından sonra -->
+    </div>       <!-- yeni eklenen container'ın kapanışı -->
+</section>
